@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Priority Sheet</title>
+    <meta name="description" content="A beautiful grid-based priority organization sheet.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/lucide@latest/css/lucide.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background-mesh"></div>
+    <div class="app-container">
+        <header>
+            <h1>Priority Sheet</h1>
+            <p>Click anywhere in the columns to add a new task. Hover over tasks for actions.</p>
+            
+            <div class="list-manager">
+                <div class="list-tabs" id="list-tabs"></div>
+                <button id="add-list-btn" class="add-list-btn">+ New List</button>
+                <div class="backup-tools">
+                    <button id="btn-export" class="tool-btn" title="Download Backup">Export</button>
+                    <button id="btn-import" class="tool-btn" title="Load Backup">Import</button>
+                    <input type="file" id="file-import" accept=".json" style="display: none;">
+                </div>
+            </div>
+        </header>
+        
+        <div class="sheet-main">
+            <div class="column-container" id="col-A" data-col="A">
+                <div class="column-header">A</div>
+                <div class="grid-content"></div>
+            </div>
+            <div class="column-container" id="col-B" data-col="B">
+                <div class="column-header">B</div>
+                <div class="grid-content"></div>
+            </div>
+            <div class="column-container" id="col-C" data-col="C">
+                <div class="column-header">C</div>
+                <div class="grid-content"></div>
+            </div>
+        </div>
+        
+        <div class="sheet-bottom">
+            <div class="bottom-box" id="box-money" data-col="$$">
+                <div class="box-header">$$</div>
+                <div class="grid-content"></div>
+            </div>
+            <div class="bottom-box" id="box-call" data-col="CALL">
+                <div class="box-header">Call</div>
+                <div class="grid-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Context Menu Component -->
+    <div class="context-menu" id="context-menu">
+        <button id="btn-bold" class="action-btn bold-btn" title="Emphasize">B</button>
+        <button id="btn-strike" class="action-btn strike-btn" title="Mark Done">S</button>
+        <button id="btn-delete" class="action-btn delete-btn" title="Delete">X</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
