@@ -220,7 +220,15 @@ header p {
 
 .bold-btn { color: var(--accent-blue); }
 .strike-btn { color: var(--text-muted); text-decoration: line-through; }
+.image-btn { color: var(--accent-green); }
 .delete-btn { color: var(--accent-red); }
+
+.task-image {
+    max-height: 24px;
+    border-radius: 4px;
+    margin-right: 8px;
+    object-fit: cover;
+}
 
 .edit-task-input {
     width: 100%;

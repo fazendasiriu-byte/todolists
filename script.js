@@ -240,6 +240,14 @@ function renderTask(task, gridNode) {
     taskEl.className = 'task-item';
     taskEl.id = task.id;
     taskEl.textContent = task.text;
+    
+    if (task.image) {
+        const img = document.createElement('img');
+        img.src = task.image;
+        img.className = 'task-image';
+        taskEl.prepend(img);
+    }
+    
     taskEl.style.top = `${task.row * GRID_SIZE + 2}px`;
     taskEl.setAttribute('draggable', 'true');
 
@@ -320,6 +328,75 @@ btnStrike.addEventListener('click', () => {
     }
 });
 
+const btnImage = document.getElementById('btn-image');
+const imageUpload = document.getElementById('image-upload');
+
+btnImage.addEventListener('click', () => {
+    if (state.hoveredTask) {
+        state.targetImageTask = state.hoveredTask;
+        imageUpload.click();
+    }
+});
+
+function attachImageToTask(taskObj, dataUrl) {
+    taskObj.image = dataUrl;
+    const taskEl = document.getElementById(taskObj.id);
+    if (taskEl) {
+        const oldImg = taskEl.querySelector('img.task-image');
+        if (oldImg) oldImg.remove();
+        const img = document.createElement('img');
+        img.src = dataUrl;
+        img.className = 'task-image';
+        taskEl.prepend(img);
+    }
+    saveState();
+}
+
+function processImageFile(file, taskObj) {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_HEIGHT = 60; 
+            const scale = Math.min(1, MAX_HEIGHT / img.height);
+            canvas.height = img.height * scale;
+            canvas.width = img.width * scale;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            attachImageToTask(taskObj, canvas.toDataURL('image/jpeg', 0.8));
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+imageUpload.addEventListener('change', (e) => {
+    if (state.targetImageTask && e.target.files.length > 0) {
+        processImageFile(e.target.files[0], state.targetImageTask);
+    }
+    e.target.value = '';
+    state.targetImageTask = null;
+    contextMenu.classList.remove('visible');
+});
+
+document.addEventListener('paste', (e) => {
+    if (document.activeElement.tagName === 'INPUT') return;
+    if (state.hoveredTask) {
+        const items = e.clipboardData.items;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf('image') !== -1) {
+                const blob = items[i].getAsFile();
+                processImageFile(blob, state.hoveredTask);
+                contextMenu.classList.remove('visible');
+                break;
+            }
+        }
+    }
+});
+
 btnDelete.addEventListener('click', () => {
     if (state.hoveredTask) {
         const id = state.hoveredTask.id;
@@ -377,7 +454,14 @@ function editTask(taskEl, taskObj) {
             if (idx > -1) state.tasks.splice(idx, 1);
         } else {
             taskObj.text = newText;
+            taskEl.innerHTML = '';
             taskEl.textContent = newText;
+            if (taskObj.image) {
+                const img = document.createElement('img');
+                img.src = taskObj.image;
+                img.className = 'task-image';
+                taskEl.prepend(img);
+            }
             taskEl.setAttribute('draggable', 'true');
         }
         

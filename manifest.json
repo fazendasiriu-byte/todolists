@@ -1,6 +1,6 @@
 {
-  "name": "Priority Sheet",
-  "short_name": "Priorities",
+  "name": "ABC Todo Lists",
+  "short_name": "ABC Todo",
   "description": "A beautiful grid-based priority organization sheet.",
   "start_url": "./index.html",
   "display": "standalone",

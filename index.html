@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Priority Sheet</title>
+    <title>ABC Todo Lists</title>
     <meta name="description" content="A beautiful grid-based priority organization sheet.">
     <meta name="theme-color" content="#0d1117">
     <link rel="manifest" href="manifest.json">
@@ -17,7 +17,7 @@
     <div class="background-mesh"></div>
     <div class="app-container">
         <header>
-            <h1>Priority Sheet</h1>
+            <h1>ABC Todo Lists</h1>
             <p>Click anywhere in the columns to add a new task. Hover over tasks for actions.</p>
             
             <div class="list-manager">
@@ -62,8 +62,12 @@
     <div class="context-menu" id="context-menu">
         <button id="btn-bold" class="action-btn bold-btn" title="Emphasize">B</button>
         <button id="btn-strike" class="action-btn strike-btn" title="Mark Done">S</button>
+        <button id="btn-image" class="action-btn image-btn" title="Attach Image">P</button>
         <button id="btn-delete" class="action-btn delete-btn" title="Delete">X</button>
     </div>
+
+    <!-- Hidden Image Upload -->
+    <input type="file" id="image-upload" accept="image/*" style="display: none;">
 
     <script src="script.js"></script>
 </body>
